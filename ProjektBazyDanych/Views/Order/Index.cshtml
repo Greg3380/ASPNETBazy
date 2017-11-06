@@ -2,19 +2,80 @@
 @{
     ViewBag.Title = "Index";
 }
+<script type="text/javascript" src="~/Scripts/jquery-3.2.1.min.js"></script>
+
+
+
 <h2>Wybierz produkty</h2>
+<div id="source" style="display:none">
+    <select class="categorySelect" style="min-width:200px">
+        <option selected disabled>Wybierz kategorie..</option>
 
-<select style="min-width:200px">
-    <option selected disabled>Wybierz kategorie..</option>
+        @foreach (var item in Model)
+            {
+            <option>@item.Name</option>
+        }
 
-    @foreach (var item in Model)
-    {
-        <option onchange=location.href='@Url.Action("ShowProducts", "Order", item.CategoryID)'>@item.Name</option>
+    </select>
+
+    <select class="productsSelect" style="min-width:200px">
+        <option selected disabled>Wybierz produkt..</option>
+    </select>
+</div>
+<div id="containerForm"></div>
+@using (Ajax.BeginForm("SaveForm", "Order", new AjaxOptions() { })) { 
+    <input name="ctg" />
+    <input name="prod" />
+    
+    <button type="submit" value="Zapisz">Zapisz</button>
+}
+<script>
+    var counter;
+
+    $(document).ready(function () {
+        counter = 0;
+        //addNew();
+    });
+
+    function addNew() {
+        var $target = $('#containerForm');
+        var $source = $('#source');
+        var $copy = $source.clone();
+
+        bind($copy);
+        $copy.appendTo($target).show();
+
     }
 
-</select>
+    function bind($container) {
+        var $categorySelect = $container.find(".categorySelect:first");
+        var $productsSelect = $container.find(".productsSelect:first");
 
-<select style="min-width:200px" >
-    <option selected disabled>Wybierz produkt..</option>
-</select>
+        $categorySelect.attr('name', 'ctg[' + counter + ']')
+        $productsSelect.attr('name', 'prod[' + counter + ']')
+        counter++;
+        $categorySelect.change(function () {
+
+            var str = $categorySelect.val();
+            $.post('@Url.Action("ShowProducts", "Order")?categoryName=' + str, function (data, status) {
+                    $productsSelect.html('');
+
+                    $productsSelect
+                        .append($("<option></option>")
+                            .attr("selected", "disabled"));
+
+                    $.each(data, function (i, value) {
+                        $productsSelect
+                            .append($("<option></option>")
+                                .attr("value", value.Name)
+                                .text(value.Name));
+                    });
+            });
+        });
+
+        $productsSelect.change(function () { addNew(); });
+
+    }
+</script>
+
 

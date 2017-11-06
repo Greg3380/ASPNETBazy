@@ -8,6 +8,12 @@ using System.Web.Mvc;
 
 namespace ProjektBazyDanych.Controllers
 {
+    public class Data
+    {
+        public String ctr { get; set; }
+        public String prod { get; set; }
+    }
+
     public class OrderController : Controller
     {
         private ProdContext db = new ProdContext();
@@ -18,23 +24,20 @@ namespace ProjektBazyDanych.Controllers
         }
 
 
-        public ActionResult ShowProducts(int? id)
+        public ActionResult ShowProducts(String categoryName)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            
             ProdContext prodContext = new ProdContext();
 
-            var allProducts = (from item in prodContext.Products
-                               where item.CategoryId == id
-                               select item).ToList();
+            var category = prodContext.Categories.FirstOrDefault(c => c.Name == categoryName);
+            if (category == null)
+                return Json(null);
 
-
-            return View(allProducts);
+            var allProducts = prodContext.Products.Where(p => category.CategoryID == p.CategoryId).ToList();
+            return Json(allProducts);
         }
 
-        public ActionResult PlaceAnOrder()
+        public ActionResult SaveForm(Data[] data)
         {
             return View();
         }
