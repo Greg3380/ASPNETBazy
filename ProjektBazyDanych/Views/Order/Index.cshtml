@@ -6,35 +6,73 @@
 
 
 
-<h2>Wybierz produkty</h2>
-<div id="source" style="display:none">
-    <select class="categorySelect" style="min-width:200px">
-        <option selected disabled>Wybierz kategorie..</option>
 
-        @foreach (var item in Model)
-            {
-            <option>@item.Name</option>
-        }
+@using (Ajax.BeginForm("SaveForm", "Order", new AjaxOptions() { }))
+{
 
-    </select>
+    <h2>Wybierz produkty</h2>
+    <table class="table2" style="margin-bottom:50px; margin-top:30px">
+        <tr>
+            <th>
+                Wpisz nazwe użytkownika
+            </th>
+            <td>
+                <input class="userInput" />
+            </td>
+        </tr>
+    </table>
 
-    <select class="productsSelect" style="min-width:200px">
-        <option selected disabled>Wybierz produkt..</option>
-    </select>
-</div>
-<div id="containerForm"></div>
-@using (Ajax.BeginForm("SaveForm", "Order", new AjaxOptions() { })) { 
-    <input name="ctg" />
-    <input name="prod" />
-    
-    <button type="submit" value="Zapisz">Zapisz</button>
+    <table class="table">
+        <tr>
+            <th>
+                Kategoria
+            </th>
+            <th>
+                Produkt
+            </th>
+            <th>
+                Ilość
+            </th>
+        </tr>
+    </table>
+    <div id="source" style="display:none">
+        <table class="table">
+            <tr>
+                <td>
+                    <select class="categorySelect" style="min-width:200px">
+                        <option selected disabled>Wybierz kategorie..</option>
+
+                        @foreach (var item in Model)
+                        {
+                            <option>@item.Name</option>
+                        }
+
+                    </select>
+                </td>
+                <td>
+                    <select class="productsSelect" style="min-width:200px">
+                        <option selected disabled>Wybierz produkt..</option>
+                    </select>
+                </td>
+                <td>
+                    <textarea class="productQuantity" rows="1" cols="2"></textarea>
+                </td>
+            </tr>
+        </table>
+    </div>
+        <div id="containerForm"></div>
+
+        <button type="submit" value="Zapisz">Złóż zamówienie</button>
 }
 <script>
     var counter;
 
     $(document).ready(function () {
+
+        var $userInput = $(".userInput:first");
+        $userInput.attr('name', 'userName')
         counter = 0;
-        //addNew();
+        addNew();
     });
 
     function addNew() {
@@ -50,9 +88,11 @@
     function bind($container) {
         var $categorySelect = $container.find(".categorySelect:first");
         var $productsSelect = $container.find(".productsSelect:first");
+        var $quantity = $container.find(".productQuantity:first");
 
-        $categorySelect.attr('name', 'ctg[' + counter + ']')
-        $productsSelect.attr('name', 'prod[' + counter + ']')
+        $categorySelect.attr('name', 'catName[' + counter + ']')
+        $productsSelect.attr('name', 'prodName[' + counter + ']')
+        $quantity.attr('name', 'quantity[' + counter + ']')
         counter++;
         $categorySelect.change(function () {
 

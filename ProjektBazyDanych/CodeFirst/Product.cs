@@ -15,6 +15,8 @@ namespace ProjektBazyDanych.CodeFirst
 
         [Column(TypeName = "Money")]
         public decimal UnitPrice { get; set; }
+        
+        public ICollection<OrderDetails> OrderDetails { get; set; }
 
 
     }

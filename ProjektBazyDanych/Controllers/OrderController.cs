@@ -1,4 +1,5 @@
 ﻿using ProjektBazyDanych.CodeFirst;
+using ProjektBazyDanych.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +9,7 @@ using System.Web.Mvc;
 
 namespace ProjektBazyDanych.Controllers
 {
-    public class Data
-    {
-        public String ctr { get; set; }
-        public String prod { get; set; }
-    }
+    
 
     public class OrderController : Controller
     {
@@ -28,7 +25,6 @@ namespace ProjektBazyDanych.Controllers
         {
             
             ProdContext prodContext = new ProdContext();
-
             var category = prodContext.Categories.FirstOrDefault(c => c.Name == categoryName);
             if (category == null)
                 return Json(null);
@@ -37,9 +33,22 @@ namespace ProjektBazyDanych.Controllers
             return Json(allProducts);
         }
 
-        public ActionResult SaveForm(Data[] data)
+        public ActionResult SaveForm(DataWrapper data)
         {
-            return View();
+            //OrderService service = new OrderService(data);
+            //if (service.Save())
+            //{
+            //    return View("SubmitSuccesful");
+            //}
+            return View("SubmitFailure");
         }
+    }
+
+    public class DataWrapper
+    {
+        public String userName;
+        public String[] catName { get; set; }
+        public String[] prodName { get; set; }
+        public int[] quantity { get; set; }
     }
 }

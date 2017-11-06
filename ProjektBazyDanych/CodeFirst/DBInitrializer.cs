@@ -41,6 +41,14 @@ namespace ProjektBazyDanych.CodeFirst
             };
             products.ForEach(p => context.Products.Add(p));
             context.SaveChanges();
+
+            var customers = new List<Customer>
+            {
+                new Customer {CompanyName = "Google", Description= "gugl" },
+                new Customer {CompanyName = "Żabka", Description= "Sieć sklepów spożywczych" },
+            };
+            customers.ForEach(p => context.Customers.Add(p));
+            context.SaveChanges();
         }
     }
 }

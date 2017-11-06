@@ -151,6 +151,8 @@
     <Compile Include="CodeFirst\Category.cs" />
     <Compile Include="CodeFirst\Customer.cs" />
     <Compile Include="CodeFirst\DBInitrializer.cs" />
+    <Compile Include="CodeFirst\Order.cs" />
+    <Compile Include="CodeFirst\OrderDetails.cs" />
     <Compile Include="CodeFirst\ProdContext.cs" />
     <Compile Include="CodeFirst\Product.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
@@ -160,12 +162,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201711051241322_InitialCreate.cs" />
-    <Compile Include="Migrations\201711051241322_InitialCreate.Designer.cs">
-      <DependentUpon>201711051241322_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CategoryModel.cs" />
+    <Compile Include="Models\OrderData.cs" />
+    <Compile Include="Models\OrderService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -222,6 +221,9 @@
     <Content Include="Views\Products\Edit.cshtml" />
     <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\Order\SubmitSuccesful.cshtml" />
+    <Content Include="Views\Order\SumbitFailure.cshtml" />
+    <Content Include="Views\Order\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -237,11 +239,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201711051241322_InitialCreate.resx">
-      <DependentUpon>201711051241322_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

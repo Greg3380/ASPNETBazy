@@ -11,5 +11,8 @@ namespace ProjektBazyDanych.CodeFirst
         [Key]
         public String CompanyName { get; set; }
         public String Description { get; set; }
+
+        public ICollection<Order> Orders{ get; set; }
+
     }
 }
