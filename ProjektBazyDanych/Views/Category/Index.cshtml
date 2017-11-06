@@ -1,0 +1,46 @@
+﻿@model IEnumerable<ProjektBazyDanych.Models.CategoryModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Dodaj kategorie", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+      
+            @Html.DisplayNameFor(model => model.category.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.category.Description)
+        </th>
+        <th>
+            Ilość produktów
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.category.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.category.Description)
+        </td>
+        <td style="text-align:center">
+            @Html.DisplayFor(modelItem => item.count)
+        </td>
+        <td>
+            @Html.ActionLink("Produkty w kategorii", "ShowProducts", new { id = item.category.CategoryID }) |
+            @Html.ActionLink("Edytuj", "Edit", new { id=item.category.CategoryID }) |
+            @Html.ActionLink("Usuń", "Delete", new { id=item.category.CategoryID })
+        </td>
+    </tr>
+}
+
+</table>

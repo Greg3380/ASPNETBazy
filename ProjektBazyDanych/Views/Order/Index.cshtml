@@ -1,0 +1,20 @@
+﻿@model IEnumerable<ProjektBazyDanych.CodeFirst.Category>
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Wybierz produkty</h2>
+
+<select style="min-width:200px">
+    <option selected disabled>Wybierz kategorie..</option>
+
+    @foreach (var item in Model)
+    {
+        <option onchange=location.href='@Url.Action("ShowProducts", "Order", item.CategoryID)'>@item.Name</option>
+    }
+
+</select>
+
+<select style="min-width:200px" >
+    <option selected disabled>Wybierz produkt..</option>
+</select>
+
