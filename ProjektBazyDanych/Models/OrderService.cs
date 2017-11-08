@@ -9,10 +9,18 @@ namespace ProjektBazyDanych.Models
     public class OrderService
     {
         private OrderData orderData;
+        private String customerName;
 
-        public OrderService(OrderData orderData)
+        public OrderService(DataWrapper dataWrapper)
         {
-            this.orderData = orderData;
+            this.orderData = new OrderData
+            {
+                catName = dataWrapper.catName,
+                prodName = dataWrapper.prodName,
+                quantity = dataWrapper.quantity
+            };
+
+            customerName = dataWrapper.userName;
         }
 
         public bool Save()
@@ -20,6 +28,12 @@ namespace ProjektBazyDanych.Models
             try
             {
                 ProdContext prodContext = new ProdContext();
+
+                Customer customer = prodContext.Customers.FirstOrDefault(n => n.CompanyName == customerName);
+
+                if (customer == null)
+                    return false;
+
                 List<OrderTranferObject> orderDTO = new List<OrderTranferObject>();
                 for (int i = 0; i < orderData.catName.Length; i++)
                 {
@@ -40,7 +54,7 @@ namespace ProjektBazyDanych.Models
 
                 Order order = new Order {
                     CompletePrice = price,
-                    CustomerName = "Google",
+                    Customer = customer
                 };
 
                 foreach(var item in orderDTO)

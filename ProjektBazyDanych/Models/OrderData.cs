@@ -11,4 +11,11 @@ namespace ProjektBazyDanych.Models
         public String[] prodName { get; set; }
         public int[] quantity { get; set; }
     }
+    public class DataWrapper
+    {
+        public String userName { get; set; }
+        public String[] catName { get; set; }
+        public String[] prodName { get; set; }
+        public int[] quantity { get; set; }
+    }
 }

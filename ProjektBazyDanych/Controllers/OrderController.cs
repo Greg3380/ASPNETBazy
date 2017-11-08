@@ -35,20 +35,64 @@ namespace ProjektBazyDanych.Controllers
 
         public ActionResult SaveForm(DataWrapper data)
         {
-            //OrderService service = new OrderService(data);
-            //if (service.Save())
-            //{
-            //    return View("SubmitSuccesful");
-            //}
+            OrderService service = new OrderService(data);
+            if (service.Save())
+            {
+                return View("SubmitSuccesful");
+            }
             return View("SubmitFailure");
         }
+
+        public ActionResult GetCustomerName()
+        {
+            
+            return View("GetCustomerName");
+        }
+
+        public ActionResult CheckUserName(UserNameWrapper user)
+        {
+            Customer customer = db.Customers.FirstOrDefault(n => n.CompanyName == user.userName);
+
+            if (customer == null)
+            {
+                ViewBag.Error = "Nie ma takiego użytkownika w bazie danych";
+                return View("GetCustomerName");
+            }
+
+            var orders = (from item in db.Orders
+                         where item.CustomerName == customer.CompanyName
+                         select item).ToList();
+
+            return View("ShowAllOrders", orders);
+        }
+
+        public ActionResult ShowDetails(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            //var orderdetails = db.OrderDetails.JWhere(o => o.OrderId == id).ToList();
+            var orderdetails = (from item in db.OrderDetails
+                                join prod in db.Products
+                                on item.ProductId equals prod.ProductID
+                                where item.OrderId == id
+                                select new {
+                                    prod = prod,
+                                    unitPrice = item.UnitPrice,
+                                    quantity = item.Quantity
+                                }).ToList();
+            if (orderdetails == null)
+            {
+                return HttpNotFound();
+            }
+            return Json(orderdetails, JsonRequestBehavior.AllowGet);
+        }
+    }
+    public class UserNameWrapper
+    {
+        public String userName { get; set; }
     }
 
-    public class DataWrapper
-    {
-        public String userName;
-        public String[] catName { get; set; }
-        public String[] prodName { get; set; }
-        public int[] quantity { get; set; }
-    }
+    
 }

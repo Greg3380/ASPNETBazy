@@ -222,8 +222,10 @@
     <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\Order\Index.cshtml" />
     <Content Include="Views\Order\SubmitSuccesful.cshtml" />
-    <Content Include="Views\Order\SumbitFailure.cshtml" />
+    <Content Include="Views\Order\SubmitFailure.cshtml" />
     <Content Include="Views\Order\Login.cshtml" />
+    <Content Include="Views\Order\GetCustomerName.cshtml" />
+    <Content Include="Views\Order\ShowAllOrders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

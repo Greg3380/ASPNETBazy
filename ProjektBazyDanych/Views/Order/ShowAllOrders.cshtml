@@ -1,0 +1,71 @@
+﻿@model IEnumerable<ProjektBazyDanych.CodeFirst.Order>
+
+@{
+    ViewBag.Title = "ShowAllOrders";
+}
+
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            Numer zamówienia
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompletePrice)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompletePrice)
+        </td>
+        <td>
+               <span class="link" data-id="@Html.DisplayFor(modelItem => item.OrderId)" style="color:navy; text-decoration:underline" >Pokaż szczegoly</span>
+            </td>
+    </tr>
+}
+
+</table>
+
+<script type="text/javascript" src="~/Scripts/jquery-3.2.1.min.js"></script>
+<script>
+    $(document).ready(() => {
+        $('.table').on('click', '.link', function () {
+            const elem = $(this);
+            const id = elem.data('id');
+
+            $.get('@Url.Action("ShowDetails", "Order")?id=' + id, function (data, status) {
+                let formattedMessage = "";
+
+                $.each(data, function (index, value) {
+                    formattedMessage += value.prod.Name + " ilosc:" + value.quantity + " cena:" + value.unitPrice +" <br>";
+                });
+
+                $('.modal-body').html(formattedMessage);
+
+                $('#myModal').modal('toggle')
+            });
+        });
+        $('.link').on('hover')
+    });
+
+</script>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

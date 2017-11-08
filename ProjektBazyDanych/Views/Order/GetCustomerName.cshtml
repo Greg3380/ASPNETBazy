@@ -1,0 +1,27 @@
+﻿@model string
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+@using (Ajax.BeginForm("CheckUserName", "Order", new AjaxOptions() { }))
+{
+    <table class="table">
+        <tr>
+            <th>
+                Wprowadź nazwe użytkownika
+            </th>
+        </tr>
+        <tr>
+            <td>
+                <input class="userInput" name="userName" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit" value="Wprowadź">Wprowadź</button>
+                <a style="color:red">@ViewBag.Error</a>
+            </td>
+        </tr>
+    </table>
+}
